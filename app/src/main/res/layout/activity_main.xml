@@ -42,11 +42,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_regular"
-            android:hint="Name"
+            android:hint="@string/name"
             android:inputType="textPersonName"
             android:textColorHint="@color/grey"
-            android:textSize="14dp"
-            tools:ignore="TextSizeCheck" />
+            android:textSize="14sp"
+            tools:ignore="TextSizeCheck,TextContrastCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -72,11 +72,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_regular"
-            android:hint="Palindrome"
+            android:hint="@string/palindrome"
             android:inputType="text"
             android:textColorHint="@color/grey"
-            android:textSize="14dp"
-            tools:ignore="TextSizeCheck" />
+            android:textSize="14sp"
+            tools:ignore="TextSizeCheck,TextContrastCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
@@ -85,8 +85,8 @@
         android:layout_height="55dp"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/poppins_regular"
-        android:text="CHECK"
-        android:textSize="14dp"
+        android:text="@string/btn_check"
+        android:textSize="14sp"
         android:textStyle="bold"
         android:backgroundTint="@color/btnColour"
         app:cornerRadius="10dp"
@@ -102,8 +102,8 @@
         android:layout_marginTop="8dp"
         android:backgroundTint="@color/btnColour"
         android:fontFamily="@font/poppins_regular"
-        android:text="NEXT"
-        android:textSize="14dp"
+        android:text="@string/btn_next"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:cornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"

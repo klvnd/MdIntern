@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MdIntern</string>
+    <string name="name">Name</string>
+    <string name="palindrome">Palindrome</string>
+    <string name="btn_check">CHECK</string>
+    <string name="btn_next">NEXT</string>
 </resources>
