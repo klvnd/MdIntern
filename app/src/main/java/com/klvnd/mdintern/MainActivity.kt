@@ -1,8 +1,7 @@
 package com.klvnd.mdintern
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.klvnd.mdintern.databinding.ActivityMainBinding
@@ -13,8 +12,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        enableEdgeToEdge()
         setContentView(binding.root)
+        supportActionBar?.hide()
 
         binding.btnCheck.setOnClickListener {
             val inputText = binding.etPalindrome.text.toString()
@@ -30,7 +29,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnNext.setOnClickListener {
-            Toast.makeText(this, "Go to Second Screen", Toast.LENGTH_SHORT).show()
+            val userName = binding.etName.text.toString().ifBlank { "John Doe" }
+            val intent = Intent(this@MainActivity, SecondActivity::class.java)
+            intent.putExtra("USER_NAME", userName)
+            startActivity(intent)
         }
     }
 
