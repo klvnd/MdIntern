@@ -8,7 +8,10 @@ import com.bumptech.glide.Glide
 import com.klvnd.mdintern.data.response.DataItem
 import com.klvnd.mdintern.databinding.ItemUserBinding
 
-class UserAdapter(private val users: List<DataItem>) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
+class UserAdapter(
+    private var users: List<DataItem>,
+    private val listener: OnItemClickListener
+) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val binding = ItemUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -17,6 +20,12 @@ class UserAdapter(private val users: List<DataItem>) : RecyclerView.Adapter<User
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         holder.bind(users[position])
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateData(newUsers: List<DataItem>) {
+        this.users = newUsers
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int = users.size
@@ -30,6 +39,14 @@ class UserAdapter(private val users: List<DataItem>) : RecyclerView.Adapter<User
 
             binding.tvUsername.text = "${user.firstName} ${user.lastName}"
             binding.tvEmail.text = user.email
+
+            binding.root.setOnClickListener {
+                listener.onItemClick(user)
+            }
         }
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(user: DataItem)
     }
 }

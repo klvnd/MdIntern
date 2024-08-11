@@ -1,6 +1,7 @@
 package com.klvnd.mdintern.ui.thirdscreen
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -8,7 +9,9 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.klvnd.mdintern.R
+import com.klvnd.mdintern.data.response.DataItem
 import com.klvnd.mdintern.databinding.ActivityThirdBinding
+import com.klvnd.mdintern.ui.secondscreen.SecondActivity
 
 class ThirdActivity : AppCompatActivity() {
 
@@ -22,22 +25,36 @@ class ThirdActivity : AppCompatActivity() {
         binding = ActivityThirdBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
-        supportActionBar?.setCustomView(R.layout.custom_action_bar)
-        supportActionBar?.setBackgroundDrawable(resources.getDrawable(R.color.white, null))
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
+        setupActionBar()
 
-        val titleTextView = supportActionBar?.customView?.findViewById<TextView>(R.id.action_bar_title)
-        titleTextView?.text = "Third Screen"
+        userAdapter = UserAdapter(emptyList(), object : UserAdapter.OnItemClickListener {
+            override fun onItemClick(user: DataItem) {
+                val intent = Intent(this@ThirdActivity, SecondActivity::class.java)
+                intent.putExtra("USER_SELECTED_ID", user.id)
+                intent.putExtra("USER_SELECTED_NAME", "${user.firstName} ${user.lastName}")
+                startActivity(intent)
+            }
+        })
 
-        userAdapter = UserAdapter(emptyList())
         binding.rvUser.layoutManager = LinearLayoutManager(this)
         binding.rvUser.adapter = userAdapter
 
         userViewModel.users.observe(this) { users ->
-            userAdapter = UserAdapter(users)
-            binding.rvUser.adapter = userAdapter
+            userAdapter.updateData(users)
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun setupActionBar() {
+        supportActionBar?.apply {
+            displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
+            setCustomView(R.layout.custom_action_bar)
+            setBackgroundDrawable(resources.getDrawable(R.color.white, null))
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.drawable.ic_back)
+
+            val titleTextView = customView?.findViewById<TextView>(R.id.action_bar_title)
+            titleTextView?.text = "Third Screen"
         }
     }
 
