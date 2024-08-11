@@ -29,7 +29,7 @@ class SecondActivity : AppCompatActivity() {
         val titleTextView = supportActionBar?.customView?.findViewById<TextView>(R.id.action_bar_title)
         titleTextView?.text = "Second Screen"
 
-        val name = intent.getStringExtra("USER_NAME") ?: "No Name"
+        val name = intent.getStringExtra("USER_NAME") ?: "John Doe"
         val selectedUserName = intent.getStringExtra("USER_SELECTED_NAME") ?: "Selected User Name"
 
         binding.tvName.text = name

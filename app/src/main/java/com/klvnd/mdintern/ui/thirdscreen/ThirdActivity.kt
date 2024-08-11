@@ -7,18 +7,20 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.klvnd.mdintern.R
 import com.klvnd.mdintern.data.response.DataItem
 import com.klvnd.mdintern.databinding.ActivityThirdBinding
 import com.klvnd.mdintern.ui.secondscreen.SecondActivity
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class ThirdActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityThirdBinding
     private val userViewModel: UserViewModel by viewModels()
-    private lateinit var userAdapter: UserAdapter
+    private lateinit var userAdapter: UserPagingAdapter
 
     @SuppressLint("UseCompatLoadingForDrawables", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +30,7 @@ class ThirdActivity : AppCompatActivity() {
 
         setupActionBar()
 
-        userAdapter = UserAdapter(emptyList(), object : UserAdapter.OnItemClickListener {
+        userAdapter = UserPagingAdapter(object : UserPagingAdapter.OnItemClickListener {
             override fun onItemClick(user: DataItem) {
                 val intent = Intent(this@ThirdActivity, SecondActivity::class.java)
                 intent.putExtra("USER_SELECTED_ID", user.id)
@@ -40,12 +42,14 @@ class ThirdActivity : AppCompatActivity() {
         binding.rvUser.layoutManager = LinearLayoutManager(this)
         binding.rvUser.adapter = userAdapter
 
-        userViewModel.users.observe(this, Observer { users ->
-            userAdapter.updateData(users)
-        })
+        lifecycleScope.launch {
+            userViewModel.users.collectLatest { pagingData ->
+                userAdapter.submitData(pagingData)
+            }
+        }
 
         binding.swipeRefresh.setOnRefreshListener {
-            userViewModel.refreshUsers()
+            userAdapter.refresh()
             binding.swipeRefresh.isRefreshing = false
         }
     }

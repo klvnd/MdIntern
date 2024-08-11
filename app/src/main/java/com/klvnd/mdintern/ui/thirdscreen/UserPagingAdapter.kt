@@ -3,15 +3,16 @@ package com.klvnd.mdintern.ui.thirdscreen
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.paging.PagingDataAdapter
 import com.bumptech.glide.Glide
 import com.klvnd.mdintern.data.response.DataItem
 import com.klvnd.mdintern.databinding.ItemUserBinding
 
-class UserAdapter(
-    private var users: List<DataItem>,
+class UserPagingAdapter(
     private val listener: OnItemClickListener
-) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
+) : PagingDataAdapter<DataItem, UserPagingAdapter.UserViewHolder>(UserDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val binding = ItemUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -19,16 +20,11 @@ class UserAdapter(
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
-        holder.bind(users[position])
+        val user = getItem(position)
+        if (user != null) {
+            holder.bind(user)
+        }
     }
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateData(newUsers: List<DataItem>) {
-        this.users = newUsers
-        notifyDataSetChanged()
-    }
-
-    override fun getItemCount(): Int = users.size
 
     inner class UserViewHolder(private val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
@@ -48,5 +44,15 @@ class UserAdapter(
 
     interface OnItemClickListener {
         fun onItemClick(user: DataItem)
+    }
+
+    private class UserDiffCallback : DiffUtil.ItemCallback<DataItem>() {
+        override fun areItemsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
+            return oldItem == newItem
+        }
     }
 }
