@@ -29,8 +29,10 @@ class SecondActivity : AppCompatActivity() {
         val titleTextView = supportActionBar?.customView?.findViewById<TextView>(R.id.action_bar_title)
         titleTextView?.text = "Second Screen"
 
+        val name = intent.getStringExtra("USER_NAME") ?: "No Name"
         val selectedUserName = intent.getStringExtra("USER_SELECTED_NAME") ?: "Selected User Name"
 
+        binding.tvName.text = name
         binding.tvSelectedUserName.text = selectedUserName
 
         binding.btnChooseUser.setOnClickListener {
@@ -48,6 +50,6 @@ class SecondActivity : AppCompatActivity() {
         super.onBackPressed()
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
-        finish()  // Close SecondActivity
+        finish()
     }
 }
