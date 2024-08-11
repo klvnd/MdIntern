@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.klvnd.mdintern.R
 import com.klvnd.mdintern.data.response.DataItem
@@ -39,8 +40,13 @@ class ThirdActivity : AppCompatActivity() {
         binding.rvUser.layoutManager = LinearLayoutManager(this)
         binding.rvUser.adapter = userAdapter
 
-        userViewModel.users.observe(this) { users ->
+        userViewModel.users.observe(this, Observer { users ->
             userAdapter.updateData(users)
+        })
+
+        binding.swipeRefresh.setOnRefreshListener {
+            userViewModel.refreshUsers()
+            binding.swipeRefresh.isRefreshing = false
         }
     }
 
