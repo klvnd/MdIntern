@@ -1,9 +1,10 @@
-package com.klvnd.mdintern
+package com.klvnd.mdintern.ui.firstscreen
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.klvnd.mdintern.ui.secondscreen.SecondActivity
 import com.klvnd.mdintern.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

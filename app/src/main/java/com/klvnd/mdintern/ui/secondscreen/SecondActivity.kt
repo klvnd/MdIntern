@@ -1,10 +1,13 @@
-package com.klvnd.mdintern
+package com.klvnd.mdintern.ui.secondscreen
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import com.klvnd.mdintern.R
+import com.klvnd.mdintern.ui.thirdscreen.ThirdActivity
 import com.klvnd.mdintern.databinding.ActivitySecondBinding
 
 class SecondActivity : AppCompatActivity() {
@@ -28,6 +31,11 @@ class SecondActivity : AppCompatActivity() {
         val name = intent.getStringExtra("USER_NAME") ?: "No Name"
 
         binding.tvName.text = name
+
+        binding.btnChooseUser.setOnClickListener {
+            val intent = Intent(this@SecondActivity, ThirdActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

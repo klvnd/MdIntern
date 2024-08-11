@@ -9,4 +9,7 @@
     <string name="btn_choose">Choose a User</string>
     <string name="selected_user_name">Selected User Name</string>
     <string name="welcome">Welcome</string>
+    <string name="sample_email">EMAIL@EMAIL.COM</string>
+    <string name="sample_username">Firstname Lastname</string>
+    <string name="btn_retry">Retry</string>
 </resources>
